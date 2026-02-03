@@ -1,0 +1,16 @@
+{
+  "users": [
+    {
+      "snipeit_user_id": 123,
+      "telegram_chat_id": 123456789,
+      "display_name": "Ivan Ivanov"
+    },
+    {
+      "snipeit_email": "user@example.com",
+      "telegram_chat_id": 987654321,
+      "display_name": "Petr Petrov"
+    }
+  ],
+  "default_chat_ids": [],
+  "pending_users": []
+}
