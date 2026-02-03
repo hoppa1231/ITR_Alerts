@@ -32,10 +32,17 @@ def load_user_map(path: str) -> Tuple[List[Dict[str, Any]], List[str]]:
     return users, fallback_ids
 
 
+def _resolve_user_map_path(path: str) -> str:
+    if os.path.isdir(path):
+        return os.path.join(path, "user_map.json")
+    return path
+
+
 def load_user_map_full(path: str) -> Dict[str, Any]:
-    if not os.path.exists(path):
+    resolved = _resolve_user_map_path(path)
+    if not os.path.exists(resolved):
         return {"users": [], "default_chat_ids": [], "pending_users": []}
-    with open(path, "r", encoding="utf-8") as handle:
+    with open(resolved, "r", encoding="utf-8") as handle:
         data = json.load(handle)
     if isinstance(data, list):
         return {"users": data, "default_chat_ids": [], "pending_users": []}
@@ -49,7 +56,9 @@ def load_user_map_full(path: str) -> Dict[str, Any]:
 
 
 def save_user_map(path: str, data: Dict[str, Any]) -> None:
-    with open(path, "w", encoding="utf-8") as handle:
+    resolved = _resolve_user_map_path(path)
+    os.makedirs(os.path.dirname(resolved) or ".", exist_ok=True)
+    with open(resolved, "w", encoding="utf-8") as handle:
         json.dump(data, handle, ensure_ascii=True, indent=2)
 
 

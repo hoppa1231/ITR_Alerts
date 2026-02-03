@@ -23,6 +23,5 @@ services:
       POLL_SECONDS: "${POLL_SECONDS}"
       STATE_PATH: "${STATE_PATH}"
     volumes:
-      - ./user_map.json:/app/user_map.json
-      - ./state.json:/app/state.json
+      - /data/itr_alerts:/app/data
     command: ["python", "main.py", "--schedule"]
