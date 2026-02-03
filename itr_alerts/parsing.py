@@ -16,9 +16,12 @@ DATE_FORMATS = [
 
 
 def load_user_map(path: str) -> Tuple[List[Dict[str, Any]], List[str]]:
-    if not os.path.exists(path):
-        raise FileNotFoundError(f"User map file not found: {path}")
-    with open(path, "r", encoding="utf-8") as handle:
+    resolved = _resolve_user_map_path(path)
+    if not os.path.exists(resolved):
+        data = {"users": [], "default_chat_ids": [], "pending_users": []}
+        save_user_map(resolved, data)
+        return [], []
+    with open(resolved, "r", encoding="utf-8") as handle:
         data = json.load(handle)
     if isinstance(data, list):
         users = data
