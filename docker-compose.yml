@@ -3,8 +3,25 @@ services:
     build: .
     container_name: itr_alerts
     restart: unless-stopped
-    env_file:
-      - .env
+    environment:
+      SNIPEIT_BASE_URL: "${SNIPEIT_BASE_URL}"
+      SNIPEIT_API_TOKEN: "${SNIPEIT_API_TOKEN}"
+      TELEGRAM_BOT_TOKEN: "${TELEGRAM_BOT_TOKEN}"
+      USER_CHAT_MAP_PATH: "${USER_CHAT_MAP_PATH}"
+      NOTIFY_DAYS: "${NOTIFY_DAYS}"
+      NOTIFY_ONLY_ON_DAY: "${NOTIFY_ONLY_ON_DAY}"
+      INCLUDE_EXPIRED: "${INCLUDE_EXPIRED}"
+      RUN_MODE: "${RUN_MODE}"
+      SCHEDULE_TIME: "${SCHEDULE_TIME}"
+      PAGE_SIZE: "${PAGE_SIZE}"
+      REQUEST_TIMEOUT: "${REQUEST_TIMEOUT}"
+      LOG_LEVEL: "${LOG_LEVEL}"
+      DRY_RUN: "${DRY_RUN}"
+      FALLBACK_CHAT_ID: "${FALLBACK_CHAT_ID}"
+      ENABLE_REGISTRATION: "${ENABLE_REGISTRATION}"
+      ADMIN_CHAT_IDS: "${ADMIN_CHAT_IDS}"
+      POLL_SECONDS: "${POLL_SECONDS}"
+      STATE_PATH: "${STATE_PATH}"
     volumes:
       - ./user_map.json:/app/user_map.json
       - ./state.json:/app/state.json
