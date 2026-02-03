@@ -245,10 +245,17 @@ def process_updates(
     return scan_requested
 
 
+def _resolve_state_path(path: str) -> str:
+    if os.path.isdir(path):
+        return os.path.join(path, "state.json")
+    return path
+
+
 def _load_state(path: str) -> Dict[str, Any]:
-    if not os.path.exists(path):
+    resolved = _resolve_state_path(path)
+    if not os.path.exists(resolved):
         return {}
-    with open(path, "r", encoding="utf-8") as handle:
+    with open(resolved, "r", encoding="utf-8") as handle:
         try:
             return json.load(handle)
         except json.JSONDecodeError:
@@ -256,5 +263,7 @@ def _load_state(path: str) -> Dict[str, Any]:
 
 
 def _save_state(path: str, state: Dict[str, Any]) -> None:
-    with open(path, "w", encoding="utf-8") as handle:
+    resolved = _resolve_state_path(path)
+    os.makedirs(os.path.dirname(resolved) or ".", exist_ok=True)
+    with open(resolved, "w", encoding="utf-8") as handle:
         json.dump(state, handle, ensure_ascii=True, indent=2)
