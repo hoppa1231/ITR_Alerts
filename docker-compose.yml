@@ -1,0 +1,11 @@
+services:
+  itr_alerts:
+    build: .
+    container_name: itr_alerts
+    restart: unless-stopped
+    env_file:
+      - .env
+    volumes:
+      - ./user_map.json:/app/user_map.json
+      - ./state.json:/app/state.json
+    command: ["python", "main.py", "--schedule"]
